@@ -5,7 +5,7 @@ import user from './ui/user.svg';
 
 function Navigation() {
   return (
-    <nav className="container mx-auto flex items-center justify-between py-[16px] px-[80px]">
+    <nav className="container max-w-screen-xl box-border flex items-center justify-between py-[16px] px-[80px]">
       <Link to="/">
         <img src={logo} alt="Логотип Комисофт." loading="lazy" />
       </Link>
