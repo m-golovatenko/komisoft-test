@@ -27,12 +27,14 @@ export default {
           '80px': '80px',
           '16px': '16px',
           '2px': '2px',
-          '12px': '12px'
+          '12px': '12px',
+          '24px': '24px'
         }
       },
 
       colors: {
-        blue: '#3B82F6'
+        blue: '#3B82F6',
+        light: '#F9FAFB'
       }
     }
   },
