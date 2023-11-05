@@ -1,33 +1,32 @@
 import Category from '../category';
+import useCategoriesStore from '../../shared/storages/categories';
+import { Dispatch, SetStateAction } from 'react';
 
-const categories = [
-  {
-    id: 0,
-    value: 'Все категории'
-  },
-  {
-    id: 1,
-    value: 'Смартфоны'
-  },
-  {
-    id: 2,
-    value: 'Ноутбуки'
-  },
-  {
-    id: 3,
-    value: 'Телевизоры'
-  },
-  {
-    id: 4,
-    value: 'Планшеты'
+function CategoriesList({
+  setCurrentItems,
+  products
+}: {
+  setCurrentItems: Dispatch<SetStateAction<object[]>>;
+  products: Array<object>;
+}) {
+  const categories = useCategoriesStore(store => store.categories);
+
+  function chooseCategory(category: string) {
+    if (category === 'Все товары') {
+      setCurrentItems(products);
+      return;
+    }
+
+    setCurrentItems(products.filter((el: object) => el.category === category));
   }
-];
-
-function CategoriesList() {
   return (
     <ul className="flex flex-col gap-2">
       {categories.map(category => (
-        <Category key={category.id} title={category.value} />
+        <Category
+          key={category.id}
+          title={category.value}
+          handleClick={() => chooseCategory(category.value)}
+        />
       ))}
     </ul>
   );
