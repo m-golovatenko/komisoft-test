@@ -5,29 +5,30 @@ import { useState } from 'react';
 import Modal from '../../entities/modal';
 import useProductsStore from '../../shared/storages/products';
 import useCategoriesStore from '../../shared/storages/categories';
+import ProductTypes from '../../shared/types/productTypes';
 
 function Products() {
   const [isModalOpen, setModalOpen] = useState(false);
 
   const category = useCategoriesStore(store => store.category);
 
-  const products = useProductsStore(store => {
+  const products = useProductsStore((store: any) => {
     switch (category) {
       case 'Смартфоны':
-        return store.products.filter(product => product.category === 'Смартфоны');
+        return store.products.filter((product: ProductTypes) => product.category === 'Смартфоны');
       case 'Ноутбуки':
-        return store.products.filter(product => product.category === 'Ноутбуки');
+        return store.products.filter((product: ProductTypes) => product.category === 'Ноутбуки');
       case 'Телевизоры':
-        return store.products.filter(product => product.category === 'Телевизоры');
+        return store.products.filter((product: ProductTypes) => product.category === 'Телевизоры');
       case 'Планшеты':
-        return store.products.filter(product => product.category === 'Планшеты');
+        return store.products.filter((product: ProductTypes) => product.category === 'Планшеты');
       default:
         return store.products;
     }
   });
 
   return (
-    <section className="container max-w-screen-xl box-border py-[24px] px-[80px] flex flex-col gap-5 min-h-[calc(100vh-184px)]">
+    <section className="container max-w-screen-xl box-border py-[24px] px-[80px] flex flex-col gap-5 min-h-[calc(100vh-184px)] ">
       <h1 className="text-2xl font-medium">Электроника</h1>
       <div className="flex gap-4">
         <CategoriesList />

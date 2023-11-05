@@ -8,7 +8,7 @@ function Card({ title, price, img }: { title: string; price: string; img: string
         <h2 className="text-base h-12" style={h2Styles}>
           {title}
         </h2>
-        <p className="text-xl font-medium">{price}</p>
+        <p className="text-xl font-medium">{price} ₽</p>
       </div>
     </li>
   );

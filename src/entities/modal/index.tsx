@@ -4,6 +4,7 @@ import { SubmitHandler, useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import useProductsStore from '../../shared/storages/products';
 import { schema } from '../../shared/schema/schema';
+import ProductTypes from '../../shared/types/productTypes';
 
 function Modal({ setModalOpen }: { setModalOpen: Dispatch<SetStateAction<boolean>> }) {
   const addProduct = useProductsStore(store => store.addProduct);
@@ -16,18 +17,10 @@ function Modal({ setModalOpen }: { setModalOpen: Dispatch<SetStateAction<boolean
     resolver: yupResolver(schema)
   });
 
-  interface ProductState {
-    title: string;
-    price: string;
-    category: string;
-    img: string;
-    id: number;
-  }
-
   function handleCloseModal() {
     setModalOpen(false);
   }
-  const createProductSubmitHandler: SubmitHandler<ProductState> = data => {
+  const createProductSubmitHandler: SubmitHandler<ProductTypes> = data => {
     addProduct(data.id, data.title, data.price, data.category, data.img);
     console.log(data);
     handleCloseModal();
@@ -75,7 +68,7 @@ function Modal({ setModalOpen }: { setModalOpen: Dispatch<SetStateAction<boolean
               <input
                 type="text"
                 className="py-3 px-4 border rounded-lg border-grey text-sm box-border outline-blue"
-                placeholder="99 999₽"
+                placeholder="99 999 ₽"
                 {...register('price')}
               />
               <p className="text-sm text-red-600">{errors.price?.message}</p>
