@@ -12,7 +12,7 @@ interface ProductsList {
   products: Array<ProductState>;
 }
 
-const useProductsStore = create<ProductsList>(() => ({
+const useProductsStore = create(set => ({
   products: [
     {
       id: 1,
@@ -84,7 +84,11 @@ const useProductsStore = create<ProductsList>(() => ({
       category: 'Телевизоры',
       img: 'https://avatars.mds.yandex.net/get-mpic/1866068/img_id2653770526606671499.png/600x800'
     }
-  ]
+  ],
+  addProduct: (id: number, name: string, price: string, category: string, img: string) =>
+    set((store: ProductsList) => ({
+      products: [...store.products, { id, name, price, category, img }]
+    }))
 }));
 
 export default useProductsStore;

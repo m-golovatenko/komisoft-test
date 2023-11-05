@@ -4,10 +4,12 @@ import CategoriesList from '../../entities/categories-list';
 import { useState } from 'react';
 import Modal from '../../entities/modal';
 import useProductsStore from '../../shared/storages/products';
+
 function Products() {
   const [isModalOpen, setModalOpen] = useState(false);
 
-  const products = useProductsStore(store => store.products);
+  const products = useProductsStore((store: any) => store.products);
+
   const [currentItems, setCurrentItems] = useState(products);
 
   return (
@@ -20,7 +22,7 @@ function Products() {
           <AddNew handleOpen={() => setModalOpen(true)} />
         </div>
       </div>
-      {isModalOpen && <Modal handleCloseModal={() => setModalOpen(false)} />}
+      {isModalOpen && <Modal setModalOpen={setModalOpen} />}
     </section>
   );
 }

@@ -1,14 +1,17 @@
 import CloseIcon from './ui/close.svg';
-import { MouseEventHandler } from 'react';
-import FileIcon from './ui/fileIcon.svg';
+import { Dispatch, SetStateAction } from 'react';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
+import useCategoriesStore from '../../shared/storages/categories';
+import useProductsStore from '../../shared/storages/products';
 
-function Modal({ handleCloseModal }: { handleCloseModal: MouseEventHandler }) {
+function Modal({ setModalOpen }: { setModalOpen: Dispatch<SetStateAction<boolean>> }) {
+  const categories = useCategoriesStore(store => store.categories);
+  const addProduct = useProductsStore(store => store.addProduct);
   const schema = yup
     .object({
-      fileUpload: yup.string().required(),
+      img: yup.string().required(),
       title: yup.string().required(),
       price: yup.string().required(),
       category: yup.string().required()
@@ -19,7 +22,22 @@ function Modal({ handleCloseModal }: { handleCloseModal: MouseEventHandler }) {
     resolver: yupResolver(schema)
   });
 
-  const onSubmit = (data: object) => console.log(data);
+  interface ProductState {
+    title: string;
+    price: string;
+    category: string;
+    img: string;
+    id: number;
+  }
+
+  function handleCloseModal() {
+    setModalOpen(false);
+  }
+  const onSubmit = (data: ProductState) => {
+    addProduct(data.id, data.title, data.price, data.category, data.img);
+    console.log(data);
+    handleCloseModal();
+  };
 
   return (
     <div className="fixed top-0 left-0 bg-black/50 z-10 w-screen h-screen overflow-y-auto overflow-x-hidden outline-none">
@@ -36,16 +54,12 @@ function Modal({ handleCloseModal }: { handleCloseModal: MouseEventHandler }) {
             <label htmlFor="fileUpload" className="text-sm">
               Фотография товара
             </label>
-            <label
-              className="flex flex-col items-center justify-center gap-3 border border-grey rounded-lg box-border outline-blue py-3 px-4"
-              htmlFor="fileUpload"
-            >
-              <input id="fileUpload" type="file" className="sr-only " {...register('fileUpload')} />
-              <img src={FileIcon} alt="Иконка загрузки файла." className="w-10 h-10" />
-              <span className="text-xs text-grey">
-                Нажмите на кнопку или перетащите файл в эту область
-              </span>
-            </label>
+            <input
+              type="text"
+              className="py-3 px-4 border rounded-lg border-grey text-sm box-border outline-blue"
+              placeholder="Apple MacBook Air"
+              {...register('img')}
+            />
           </li>
           <li className="flex flex-col gap-1 w-full ">
             <label className="text-sm">Название</label>
@@ -73,10 +87,9 @@ function Modal({ handleCloseModal }: { handleCloseModal: MouseEventHandler }) {
               className="py-3 px-4 border rounded-lg border-grey text-sm box-border outline-blue"
               {...register('category')}
             >
-              <option>Ноутбуки</option>
-              <option>Смартфоны</option>
-              <option>Планшеты</option>
-              <option>Планшеты</option>
+              {categories.slice(1).map(item => (
+                <option key={item.id}>{item.value}</option>
+              ))}
             </select>
           </li>
         </ul>
