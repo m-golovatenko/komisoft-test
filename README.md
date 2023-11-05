@@ -1,27 +1,42 @@
-# React + TypeScript + Vite
+# Тестовое задание для Komisoft
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+## Описание задания
 
-Currently, two official plugins are available:
+Разработать страницу интернет-магазина, которое позволяет просматривать список
+продуктов, добавлять новые продукты и фильтровать их по категориям
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## Ссылка на проект
 
-## Expanding the ESLint configuration
+[Тестовое задание]()
 
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
+## Технологии
 
-- Configure the top-level `parserOptions` property like this:
+- [React](https://react.dev/)
+- [TypeScript](https://www.typescriptlang.org/)
+- [React hook form](https://react-hook-form.com/)
+- [yup](https://www.npmjs.com/package/yup)
+- [Zustand](https://zustand-demo.pmnd.rs/)
+- [Tailwindcss](https://tailwindcss.com/)
 
-```js
-   parserOptions: {
-    ecmaVersion: 'latest',
-    sourceType: 'module',
-    project: ['./tsconfig.json', './tsconfig.node.json'],
-    tsconfigRootDir: __dirname,
-   },
+## Что можно сделать лучше?
+
+- Исправить ошибки в типах
+- Реализовать адаптив
+- Создать апи для сохранения данных пользователя и добавленных товаров
+- Реализация корзины
+
+### Установка зависимостей
+
+Для установки зависимостей, выполните команду:
+
+```sh
+$ npm i
 ```
 
-- Replace `plugin:@typescript-eslint/recommended` to `plugin:@typescript-eslint/recommended-type-checked` or `plugin:@typescript-eslint/strict-type-checked`
-- Optionally add `plugin:@typescript-eslint/stylistic-type-checked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and add `plugin:react/recommended` & `plugin:react/jsx-runtime` to the `extends` list
+### Запуск Development сервера
+
+Чтобы запустить сервер для разработки, выполните команду:
+
+```sh
+npm run dev
+```
