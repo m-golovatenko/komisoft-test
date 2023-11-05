@@ -36,7 +36,9 @@ export default {
       colors: {
         blue: '#3B82F6',
         light: '#F9FAFB',
-        grey: '#D8DEE4'
+        grey: '#D8DEE4',
+        dark: '#111827',
+        black: '#1F2937'
       }
     }
   },
