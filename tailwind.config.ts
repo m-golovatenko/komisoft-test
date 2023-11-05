@@ -16,7 +16,8 @@ export default {
         xl: '1440px'
       },
       width: {
-        '24px': '24px'
+        '24px': '24px',
+        '440px': '440px'
       },
       height: {
         '24px': '24px'
@@ -34,7 +35,8 @@ export default {
 
       colors: {
         blue: '#3B82F6',
-        light: '#F9FAFB'
+        light: '#F9FAFB',
+        grey: '#D8DEE4'
       }
     }
   },
