@@ -10,7 +10,7 @@ import ProductTypes from '../../shared/types/productTypes';
 function Products() {
   const [isModalOpen, setModalOpen] = useState(false);
 
-  const category = useCategoriesStore(store => store.category);
+  const category = useCategoriesStore((store: any) => store.category);
 
   const products = useProductsStore((store: any) => {
     switch (category) {
