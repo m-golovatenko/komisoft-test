@@ -27,7 +27,7 @@ function Products() {
   });
 
   return (
-    <section className="container max-w-screen-xl box-border py-[24px] px-[80px] flex flex-col gap-5 min-h-screen">
+    <section className="container max-w-screen-xl box-border py-[24px] px-[80px] flex flex-col gap-5 min-h-[calc(100vh-184px)]">
       <h1 className="text-2xl font-medium">Электроника</h1>
       <div className="flex gap-4">
         <CategoriesList />
