@@ -5,7 +5,7 @@ import Footer from '../widgets/footer';
 
 const App = () => {
   return (
-    <main>
+    <main className="flex flex-col justify-between h-full">
       <Header />
       <Routing />
       <Footer />

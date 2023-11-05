@@ -1,24 +1,18 @@
 import CloseIcon from './ui/close.svg';
 import { Dispatch, SetStateAction } from 'react';
-import { useForm } from 'react-hook-form';
+import { SubmitHandler, useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
-import * as yup from 'yup';
-import useCategoriesStore from '../../shared/storages/categories';
 import useProductsStore from '../../shared/storages/products';
+import { schema } from '../../shared/schema/schema';
 
 function Modal({ setModalOpen }: { setModalOpen: Dispatch<SetStateAction<boolean>> }) {
-  const categories = useCategoriesStore(store => store.categories);
   const addProduct = useProductsStore(store => store.addProduct);
-  const schema = yup
-    .object({
-      img: yup.string().required(),
-      title: yup.string().required(),
-      price: yup.string().required(),
-      category: yup.string().required()
-    })
-    .required();
 
-  const { register, handleSubmit } = useForm({
+  const {
+    register,
+    handleSubmit,
+    formState: { errors }
+  } = useForm({
     resolver: yupResolver(schema)
   });
 
@@ -33,7 +27,7 @@ function Modal({ setModalOpen }: { setModalOpen: Dispatch<SetStateAction<boolean
   function handleCloseModal() {
     setModalOpen(false);
   }
-  const onSubmit = (data: ProductState) => {
+  const createProductSubmitHandler: SubmitHandler<ProductState> = data => {
     addProduct(data.id, data.title, data.price, data.category, data.img);
     console.log(data);
     handleCloseModal();
@@ -42,55 +36,68 @@ function Modal({ setModalOpen }: { setModalOpen: Dispatch<SetStateAction<boolean
   return (
     <div className="fixed top-0 left-0 bg-black/50 z-10 w-screen h-screen overflow-y-auto overflow-x-hidden outline-none">
       <form
-        onSubmit={handleSubmit(onSubmit)}
+        onSubmit={handleSubmit(createProductSubmitHandler)}
+        noValidate
         className="py-8 px-10 bg-white rounded-3xl flex flex-col w-[440px] gap-6 absolute inset-0 top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 items-center relative"
       >
-        <button className="absolute right-6 top-6" onClick={handleCloseModal}>
+        <button className="absolute right-6 top-6" onClick={handleCloseModal} type="button">
           <img src={CloseIcon} alt="Иконка закрытия формы." />
         </button>
         <h2 className="text-2xl font-bold">Добавить новый продукт</h2>
         <ul className="flex flex-col gap-3 w-full">
-          <li className="flex flex-col gap-1 w-full ">
-            <label htmlFor="fileUpload" className="text-sm">
-              Фотография товара
-            </label>
-            <input
-              type="text"
-              className="py-3 px-4 border rounded-lg border-grey text-sm box-border outline-blue"
-              placeholder="Apple MacBook Air"
-              {...register('img')}
-            />
+          <li className="flex flex-col gap-1 w-full focus:outline-blue ">
+            <label className="text-sm">Фотография товара</label>
+            <div className="flex flex-col w-full">
+              <input
+                type="text"
+                className="py-3 px-4 border rounded-lg border-grey text-sm box-border outline-blue"
+                placeholder="Ссылка на фотографию"
+                {...register('img')}
+              />
+              <p className="text-sm text-red-600">{errors.img?.message}</p>
+            </div>
           </li>
           <li className="flex flex-col gap-1 w-full ">
             <label className="text-sm">Название</label>
-            <input
-              type="text"
-              className="py-3 px-4 border rounded-lg border-grey text-sm box-border outline-blue"
-              placeholder="Apple MacBook Air"
-              {...register('title')}
-            />
+            <div className="flex flex-col w-full">
+              <input
+                type="text"
+                className="py-3 px-4 border rounded-lg border-grey text-sm box-border outline-blue"
+                placeholder="Apple MacBook Air"
+                {...register('title')}
+              />
+              <p className="text-sm text-red-600">{errors.title?.message}</p>
+            </div>
           </li>
           <li className="flex flex-col gap-1 w-full">
             <label className="text-sm">Цена</label>
-            <input
-              type="text"
-              className="py-3 px-4 border rounded-lg border-grey text-sm box-border outline-blue"
-              placeholder="99 999₽"
-              {...register('price')}
-            />
+            <div className="flex flex-col w-full">
+              <input
+                type="text"
+                className="py-3 px-4 border rounded-lg border-grey text-sm box-border outline-blue"
+                placeholder="99 999₽"
+                {...register('price')}
+              />
+              <p className="text-sm text-red-600">{errors.price?.message}</p>
+            </div>
           </li>
+
           <li className="flex flex-col gap-1 w-full">
             <label className="text-sm">Категория</label>
-            <select
-              id="category"
-              autoComplete="category-name"
-              className="py-3 px-4 border rounded-lg border-grey text-sm box-border outline-blue"
-              {...register('category')}
-            >
-              {categories.slice(1).map(item => (
-                <option key={item.id}>{item.value}</option>
-              ))}
-            </select>
+            <div className="flex flex-col w-full">
+              <select
+                id="category"
+                autoComplete="category-name"
+                className="py-3 px-4 border rounded-lg border-grey text-sm box-border outline-blue"
+                {...register('category')}
+              >
+                <option>Смартфоны</option>
+                <option>Ноутбуки</option>
+                <option>Телевизоры</option>
+                <option>Планшеты</option>
+              </select>
+              <p className="text-sm text-red-600">{errors.category?.message}</p>
+            </div>
           </li>
         </ul>
         <button
