@@ -3,28 +3,22 @@ import CardList from '../../entities/card-list';
 import CategoriesList from '../../entities/categories-list';
 import { useState } from 'react';
 import Modal from '../../entities/modal';
-import useProductsStore from '../../shared/storages/products';
-import useCategoriesStore from '../../shared/storages/categories';
-import ProductTypes from '../../shared/types/productTypes';
+import useProductsStore, { IProductState } from '../../shared/storages/products';
+import useCategoriesStore, { ICategoryState } from '../../shared/storages/categories';
+import IProduct from '../../entities/types/product.interface';
 
 function Products() {
   const [isModalOpen, setModalOpen] = useState(false);
 
-  const category = useCategoriesStore((store: any) => store.category);
+  const category = useCategoriesStore((store: ICategoryState) =>
+    store.computed.getActiveCategory()
+  );
 
-  const products = useProductsStore((store: any) => {
-    switch (category) {
-      case 'Смартфоны':
-        return store.products.filter((product: ProductTypes) => product.category === 'Смартфоны');
-      case 'Ноутбуки':
-        return store.products.filter((product: ProductTypes) => product.category === 'Ноутбуки');
-      case 'Телевизоры':
-        return store.products.filter((product: ProductTypes) => product.category === 'Телевизоры');
-      case 'Планшеты':
-        return store.products.filter((product: ProductTypes) => product.category === 'Планшеты');
-      default:
-        return store.products;
+  const products = useProductsStore((store: IProductState) => {
+    if (!category || category.name === 'Все товары') {
+      return store.products;
     }
+    return store.products.filter((product: IProduct) => product.category === category?.name);
   });
 
   return (

@@ -4,8 +4,13 @@ import { SubmitHandler, useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import useProductsStore from '../../shared/storages/products';
 import { schema } from '../../shared/schema/schema';
-import ProductTypes from '../../shared/types/productTypes';
 
+interface IProductCreateForm {
+  title: string;
+  img: string;
+  price: number;
+  category: string;
+}
 function Modal({ setModalOpen }: { setModalOpen: Dispatch<SetStateAction<boolean>> }) {
   const addProduct = useProductsStore(store => store.addProduct);
 
@@ -13,15 +18,22 @@ function Modal({ setModalOpen }: { setModalOpen: Dispatch<SetStateAction<boolean
     register,
     handleSubmit,
     formState: { errors }
-  } = useForm({
+  } = useForm<IProductCreateForm>({
     resolver: yupResolver(schema)
   });
 
   function handleCloseModal() {
     setModalOpen(false);
   }
-  const createProductSubmitHandler: SubmitHandler<ProductTypes> = data => {
-    addProduct(data.id, data.title, data.price, data.category, data.img);
+  const createProductSubmitHandler: SubmitHandler<IProductCreateForm> = data => {
+    const { title, price, category, img } = data;
+    addProduct({
+      id: Math.floor(Math.random() * 1000),
+      name: title ?? '',
+      price: price.toString(),
+      category,
+      img
+    });
     console.log(data);
     handleCloseModal();
   };

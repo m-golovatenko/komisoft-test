@@ -1,18 +1,12 @@
+import IProduct from 'entities/types/product.interface';
 import { create } from 'zustand';
 
-interface ProductState {
-  id: number;
-  name: string;
-  price: string;
-  category: string;
-  img: string;
+export interface IProductState {
+  products: IProduct[];
+  addProduct: (product: IProduct) => void;
 }
 
-interface ProductsList {
-  products: Array<ProductState>;
-}
-
-const useProductsStore = create(set => ({
+const useProductsStore = create<IProductState>(set => ({
   products: [
     {
       id: 1,
@@ -85,9 +79,9 @@ const useProductsStore = create(set => ({
       img: 'https://avatars.mds.yandex.net/get-mpic/1866068/img_id2653770526606671499.png/600x800'
     }
   ],
-  addProduct: (id: number, name: string, price: string, category: string, img: string) =>
-    set((store: ProductsList) => ({
-      products: [...store.products, { id, name, price, category, img }]
+  addProduct: (product: IProduct) =>
+    set((store: IProductState) => ({
+      products: [...store.products, product]
     }))
 }));
 

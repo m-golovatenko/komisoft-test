@@ -1,12 +1,8 @@
+import IProduct from 'entities/types/product.interface';
 import Card from '../card';
-interface Card {
-  name: string;
-  price: string;
-  img: string;
-  id: string;
-}
+
 interface CardList {
-  products: Array<Card>;
+  products: Array<IProduct>;
 }
 
 function CardList({ products }: CardList) {
